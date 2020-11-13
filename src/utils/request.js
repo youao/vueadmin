@@ -1,6 +1,7 @@
 import axios from "axios";
 import app from "@/config";
 import Qs from "qs";
+import cookie from "@/utils/cookie";
 
 // axios.defaults.withCredentials = false;
 
@@ -13,7 +14,8 @@ const instance = axios.create({
         return data;
     }],
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Auth-Token': cookie.get('token')
     },
     timeout: 20000
 });

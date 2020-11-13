@@ -31,6 +31,9 @@ export default {
       this.asideHide = to.meta.asideHide;
       this.headerHide = to.meta.headerHide;
     }
+  },
+  mounted: function() {
+    console.log(this.$store.state.token);
   }
 };
 </script>
