@@ -1,15 +1,11 @@
 <template>
-  <div id="app">
-    <el-container>
-      <el-header v-show="!headerHide" :class="['header', 'fmix-align']">
-        <img src="./assets/logo.png" class="logoimg" />
-        <span class="logofont">花棒商城系统</span>
-      </el-header>
+  <div id="app" class="fmix-v">
+      <header-o v-show="!headerHide" />
       <el-container>
         <el-aside v-show="!asideHide">
           <el-menu
             class="el-menu-vertical-demo"
-            default-active="1"
+            :default-active="defaultMenu"
             @select="handleselect"
           >
             <div v-for="(sub, index) in menu" :key="index">
@@ -39,47 +35,24 @@
           <router-view />
         </el-main>
       </el-container>
-    </el-container>
   </div>
 </template>
 
 <script>
+import menu from '@/libs/aside';
+import Header from '@/components/Header';
+
 export default {
   name: "App",
+  components: {
+    'header-o': Header,
+  },
   data() {
     return {
       asideHide: false,
       headerHide: false,
-      menu: [
-        {
-          title: "会员管理",
-          icon: "el-icon-menu",
-          sub: [
-            {
-              title: "会员列表",
-              path: "/user/list",
-            },
-            {
-              title: "会员分组",
-              path: "/user/group",
-            },
-            {
-              title: "会员等级管理",
-              path: "/user/level",
-            },
-          ],
-        },
-        {
-          title: "商城管理",
-          icon: "el-icon-goods",
-          path: "/goods/list",
-        },
-        {
-          title: "全局设置",
-          icon: "el-icon-setting",
-          path: "/app/set",
-        },
-      ],
+      defaultMenu: '/',
+      menu,
     };
   },
   watch: {
@@ -87,6 +60,9 @@ export default {
       this.asideHide = to.meta.asideHide;
       this.headerHide = to.meta.headerHide;
     }
+  },
+  mounted: function() {
+    this.defaultMenu = this.$route.path;
   },
   methods: {
     handleselect(path) {
@@ -99,15 +75,5 @@ export default {
 </script>
 
 <style>
-.header {
-  border-bottom: 1px solid #eee;
-}
-.logoimg {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-}
-.logofont {
-  font-size: 24px;
-}
+
 </style>

@@ -29,6 +29,8 @@
 
 <script>
 import { loginByPassword } from "@/api/user";
+import cookie from '@/utils/cookie';
+
 export default {
   name: "Login",
   data() {
@@ -45,9 +47,9 @@ export default {
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
-            min: 6,
+            min: 3,
             max: 20,
-            message: "长度在 6 到 20 个字符",
+            message: "长度在 3 到 20 个字符",
             trigger: "blur",
           },
         ],
@@ -57,12 +59,20 @@ export default {
   methods: {
     subLogin() {
       this.$refs["form"].validate((valid) => {
-        if (!valid) {
-          return console.log("error submit!!");
-        }
-        loginByPassword(this.form.account, this.form.password).then((res) => {
-          console.log(res);
-        });
+        if (!valid) return;
+        loginByPassword(this.form.account, this.form.password)
+          .then((res) => {
+            cookie.set('token', res.data.token);
+            this.$router.push('/');
+            this.$notify.success({
+              message: res.msg,
+            });
+          })
+          .catch((err) => {
+            this.$notify.error({
+              message: err.msg,
+            });
+          });
       });
     },
   },

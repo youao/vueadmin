@@ -13,7 +13,7 @@ const routes = [{
     path: '/',
     name: 'Hello',
     component: () =>
-        import (`@/views/Hello`)
+        import (`@/views/common/Hello`)
 }, {
     path: '/app/set',
     name: 'AppSet',
@@ -32,7 +32,7 @@ const routes = [{
     path: '*',
     name: 'NotDefined',
     component: () =>
-        import ('@/views/404')
+        import ('@/views/common/404')
 }];
 
 const router = new Router({ routes });
